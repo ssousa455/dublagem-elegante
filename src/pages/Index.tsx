@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
 import Services from "@/components/Services";
+import ProcessSteps from "@/components/ProcessSteps";
 import PriceCalculator from "@/components/PriceCalculator";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
@@ -12,6 +13,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Hero />
       <Stats />
+      <ProcessSteps />
       <Services />
       <PriceCalculator />
       <Testimonials />
@@ -19,7 +21,6 @@ const Index = () => {
       <Contact />
       <DiscountPopup />
       
-      {/* WhatsApp Button */}
       <a
         href="https://wa.me/5511999999999"
         target="_blank"

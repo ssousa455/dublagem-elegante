@@ -25,19 +25,19 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#7E69AB",
-          light: "#9B87F5",
-          dark: "#5A4A7B",
+          DEFAULT: "#2A3040",
+          light: "#3A4050",
+          dark: "#1A2030",
         },
         secondary: {
-          DEFAULT: "#1A1F2C",
-          light: "#2A3040",
-          dark: "#0A0F1C",
+          DEFAULT: "#0FA0CE",
+          light: "#33C3F0",
+          dark: "#0E90BE",
         },
         accent: {
-          DEFAULT: "#D6BCFA",
-          light: "#E6CCFF",
-          dark: "#C6ACFA",
+          DEFAULT: "#F97316",
+          light: "#FB923C",
+          dark: "#EA580C",
         },
       },
       fontFamily: {
@@ -46,7 +46,7 @@ export default {
       },
       backgroundImage: {
         "gradient-primary":
-          "linear-gradient(102.3deg, rgba(147,39,143,1) 5.9%, rgba(234,172,232,1) 64%, rgba(246,219,245,1) 89%)",
+          "linear-gradient(135deg, #2A3040 0%, #0FA0CE 100%)",
       },
     },
   },

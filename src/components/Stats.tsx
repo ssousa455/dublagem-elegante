@@ -13,11 +13,8 @@ const Stats = () => {
           </div>
           <div className="text-center">
             <div className="text-4xl font-bold text-primary mb-2">24h</div>
-            <div className="text-secondary/80">Prazo Médio de Entrega*</div>
+            <div className="text-secondary/80">Prazo Médio de Entrega</div>
           </div>
-        </div>
-        <div className="text-center text-sm text-secondary/60 mt-4">
-          *Para projetos de até 1h de duração
         </div>
       </div>
     </div>

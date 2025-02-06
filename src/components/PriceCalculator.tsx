@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const PriceCalculator = () => {
   const [duration, setDuration] = useState("");
   const [price, setPrice] = useState(0);
+  const [isSeconds, setIsSeconds] = useState(false);
   const { toast } = useToast();
 
   const calculatePrice = (minutes: number) => {
@@ -15,15 +18,18 @@ const PriceCalculator = () => {
   };
 
   const handleCalculate = () => {
-    const minutes = parseFloat(duration);
-    if (isNaN(minutes) || minutes <= 0) {
+    const inputValue = parseFloat(duration);
+    if (isNaN(inputValue) || inputValue <= 0) {
       toast({
         title: "Duração inválida",
-        description: "Por favor, insira uma duração válida em minutos.",
+        description: "Por favor, insira uma duração válida.",
         variant: "destructive",
       });
       return;
     }
+
+    // Converter para minutos se necessário
+    const minutes = isSeconds ? inputValue / 60 : inputValue;
     const calculatedPrice = calculatePrice(minutes);
     setPrice(calculatedPrice);
     
@@ -43,16 +49,28 @@ const PriceCalculator = () => {
         <div className="max-w-md mx-auto">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Duração do vídeo (em minutos)
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium">
+                  Duração do vídeo {isSeconds ? "(em segundos)" : "(em minutos)"}
+                </label>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="seconds"
+                    checked={isSeconds}
+                    onCheckedChange={(checked) => setIsSeconds(checked as boolean)}
+                  />
+                  <Label htmlFor="seconds" className="text-sm cursor-pointer">
+                    Usar segundos
+                  </Label>
+                </div>
+              </div>
               <Input
                 type="number"
                 min="0"
                 step="0.1"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-                placeholder="Ex: 15"
+                placeholder={isSeconds ? "Ex: 900" : "Ex: 15"}
               />
             </div>
             <Button onClick={handleCalculate} className="w-full">

@@ -36,7 +36,7 @@ const Services = () => {
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <div className="aspect-video bg-gray-100 rounded-lg mb-6">
               <img
-                src="/lovable-uploads/subtitles-example.jpg"
+                src="/lovable-uploads/221fa39f-85c5-4083-b4a6-bf4e3b7cddbd.png"
                 alt="Serviço de Legendagem"
                 className="w-full h-full object-cover rounded-lg"
               />

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 const PriceCalculator = () => {
   const [duration, setDuration] = useState("");
   const [price, setPrice] = useState(0);
-  const [isSeconds, setIsSeconds] = useState(false);
+  const [isHours, setIsHours] = useState(false);
   const { toast } = useToast();
 
   const calculatePrice = (minutes: number) => {
@@ -29,7 +29,7 @@ const PriceCalculator = () => {
     }
 
     // Converter para minutos se necessário
-    const minutes = isSeconds ? inputValue / 60 : inputValue;
+    const minutes = isHours ? inputValue * 60 : inputValue;
     const calculatedPrice = calculatePrice(minutes);
     setPrice(calculatedPrice);
     
@@ -42,6 +42,15 @@ const PriceCalculator = () => {
     }));
   };
 
+  const handleWhatsAppClick = () => {
+    const unit = isHours ? "horas" : "minutos";
+    const message = encodeURIComponent(
+      `Olá! 😊 Vi que o orçamento automático para ${duration} ${unit} de dublagem ficou em R$${price.toFixed(2)}. ` +
+      `Gostaria de saber mais detalhes sobre o serviço e verificar a disponibilidade. Podemos conversar?`
+    );
+    window.open(`https://wa.me/5584996562202?text=${message}`, '_blank');
+  };
+
   return (
     <div id="orcamento" className="section-spacing bg-white">
       <div className="container mx-auto px-4">
@@ -51,16 +60,16 @@ const PriceCalculator = () => {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium">
-                  Duração do vídeo {isSeconds ? "(em segundos)" : "(em minutos)"}
+                  Duração do vídeo {isHours ? "(em horas)" : "(em minutos)"}
                 </label>
                 <div className="flex items-center space-x-2">
                   <Checkbox
-                    id="seconds"
-                    checked={isSeconds}
-                    onCheckedChange={(checked) => setIsSeconds(checked as boolean)}
+                    id="hours"
+                    checked={isHours}
+                    onCheckedChange={(checked) => setIsHours(checked as boolean)}
                   />
-                  <Label htmlFor="seconds" className="text-sm cursor-pointer">
-                    Usar segundos
+                  <Label htmlFor="hours" className="text-sm cursor-pointer">
+                    Usar horas
                   </Label>
                 </div>
               </div>
@@ -70,21 +79,29 @@ const PriceCalculator = () => {
                 step="0.1"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-                placeholder={isSeconds ? "Ex: 900" : "Ex: 15"}
+                placeholder={isHours ? "Ex: 1.5" : "Ex: 90"}
               />
             </div>
             <Button onClick={handleCalculate} className="w-full">
               Calcular Preço
             </Button>
             {price > 0 && (
-              <div className="text-center mt-4">
-                <p className="text-lg">Valor estimado:</p>
-                <p className="text-2xl font-bold text-primary">
-                  R$ {price.toFixed(2)}
-                </p>
-                <p className="text-sm text-gray-500 mt-2">
-                  *Preços a partir de R$20 para vídeos de até 15 minutos
-                </p>
+              <div className="text-center mt-4 space-y-4">
+                <div>
+                  <p className="text-lg">Valor estimado:</p>
+                  <p className="text-2xl font-bold text-primary">
+                    R$ {price.toFixed(2)}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    *Preços a partir de R$20 para vídeos de até 15 minutos
+                  </p>
+                </div>
+                <Button 
+                  onClick={handleWhatsAppClick}
+                  className="w-full bg-green-500 hover:bg-green-600"
+                >
+                  Continuar no WhatsApp
+                </Button>
               </div>
             )}
           </div>

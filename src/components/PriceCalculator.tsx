@@ -26,6 +26,14 @@ const PriceCalculator = () => {
     }
     const calculatedPrice = calculatePrice(minutes);
     setPrice(calculatedPrice);
+    
+    // Armazena que um preço foi calculado
+    localStorage.setItem("calculatedPrice", "true");
+    // Dispara evento para notificar o popup
+    window.dispatchEvent(new StorageEvent("storage", {
+      key: "calculatedPrice",
+      newValue: "true"
+    }));
   };
 
   return (

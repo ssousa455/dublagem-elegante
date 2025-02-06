@@ -9,23 +9,45 @@ import { Button } from "@/components/ui/button";
 
 const DiscountPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasCalculatedPrice, setHasCalculatedPrice] = useState(false);
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("hasSeenDiscountPopup");
     
     if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-        localStorage.setItem("hasSeenDiscountPopup", "true");
-      }, 5000);
+      // Observa se o usuário já calculou o preço
+      const handleStorageChange = (e: StorageEvent) => {
+        if (e.key === "calculatedPrice" && e.newValue) {
+          setHasCalculatedPrice(true);
+        }
+      };
 
-      return () => clearTimeout(timer);
+      window.addEventListener("storage", handleStorageChange);
+
+      // Detecta quando o usuário tenta sair da página
+      const handleMouseLeave = (e: MouseEvent) => {
+        if (
+          e.clientY <= 0 && 
+          hasCalculatedPrice && 
+          !hasSeenPopup
+        ) {
+          setIsOpen(true);
+          localStorage.setItem("hasSeenDiscountPopup", "true");
+        }
+      };
+
+      document.addEventListener("mouseleave", handleMouseLeave);
+
+      return () => {
+        window.removeEventListener("storage", handleStorageChange);
+        document.removeEventListener("mouseleave", handleMouseLeave);
+      };
     }
-  }, []);
+  }, [hasCalculatedPrice]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center mb-4">
             Oferta Especial! 🎉
